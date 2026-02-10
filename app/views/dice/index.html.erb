@@ -1,0 +1,287 @@
+<%#
+  Original version:
+
+  die1 = rand(1..6)
+  die2 = rand(1..6)
+  total = die1+die2
+
+  <h1>Welcome to the game! Good luck!!!</h1>
+  <p>die1</p>
+  <img src="/images/dice/die1.svg">
+  <p>die2</p>
+  <img src="/images/dice/die2.svg">
+  <p>total</p>
+
+  <a href="/dice">Roll again!</a>
+%>
+
+<%
+  die1 = rand(1..6)
+  die2 = rand(1..6)
+  total = die1 + die2
+
+  if total == 7
+    result_message = "JACKPOT! Lucky 7!"
+    result_class = "result-win"
+  elsif total == 2
+    result_message = "Snake Eyes! Tough break..."
+    result_class = "result-lose"
+  elsif total == 12
+    result_message = "Boxcars! High roller!"
+    result_class = "result-win"
+  elsif total >= 9
+    result_message = "Hot hand! Nice roll!"
+    result_class = "result-warm"
+  else
+    result_message = "Roll again, high roller!"
+    result_class = "result-neutral"
+  end
+%>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Special+Elite&display=swap');
+
+  body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    background: #0a0a0a;
+    background-image:
+      radial-gradient(ellipse at top, #1a0a00 0%, transparent 50%),
+      radial-gradient(ellipse at bottom, #0a0a1a 0%, transparent 50%),
+      repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        rgba(139, 69, 19, 0.03) 10px,
+        rgba(139, 69, 19, 0.03) 20px
+      );
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Special Elite', cursive;
+    color: #f5deb3;
+  }
+
+  .casino-wrapper {
+    text-align: center;
+    max-width: 600px;
+    padding: 2rem;
+  }
+
+  .marquee {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #b8860b;
+    margin-bottom: 0.25rem;
+    text-shadow: 0 0 10px rgba(184, 134, 11, 0.5);
+  }
+
+  .casino-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    font-weight: 900;
+    color: #ffd700;
+    text-shadow:
+      0 0 20px rgba(255, 215, 0, 0.6),
+      0 0 40px rgba(255, 215, 0, 0.3),
+      2px 2px 0 #8b4513;
+    margin: 0.25rem 0;
+    letter-spacing: 0.05em;
+  }
+
+  .subtitle {
+    font-size: 1.1rem;
+    color: #cd853f;
+    margin-bottom: 2rem;
+    font-style: italic;
+  }
+
+  .felt-table {
+    background: radial-gradient(ellipse, #145a32 0%, #0b3d22 60%, #072a17 100%);
+    border: 6px solid #8b4513;
+    border-radius: 20px;
+    padding: 2rem 2.5rem;
+    box-shadow:
+      inset 0 0 30px rgba(0, 0, 0, 0.5),
+      0 0 30px rgba(139, 69, 19, 0.3),
+      0 8px 32px rgba(0, 0, 0, 0.7);
+    position: relative;
+  }
+
+  .felt-table::before {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    right: 6px;
+    bottom: 6px;
+    border: 2px solid rgba(255, 215, 0, 0.2);
+    border-radius: 14px;
+    pointer-events: none;
+  }
+
+  .dice-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+  }
+
+  .die-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .die-box img {
+    width: 110px;
+    height: 110px;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.6)) brightness(1.1);
+    transition: transform 0.3s ease;
+  }
+
+  .die-box img:hover {
+    transform: scale(1.15) rotate(8deg);
+  }
+
+  .die-value {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #ffd700;
+    margin-top: 0.5rem;
+    text-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
+  }
+
+  .plus {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    color: #ffd700;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+  }
+
+  .score-display {
+    margin: 1.5rem 0 0.5rem;
+    font-size: 1.2rem;
+    color: #f5deb3;
+  }
+
+  .score-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: #ffd700;
+    text-shadow:
+      0 0 15px rgba(255, 215, 0, 0.6),
+      0 0 30px rgba(255, 215, 0, 0.3);
+  }
+
+  .result-message {
+    font-size: 1.3rem;
+    margin: 0.75rem 0;
+    letter-spacing: 0.05em;
+  }
+
+  .result-win {
+    color: #ffd700;
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+  }
+
+  .result-lose {
+    color: #cd5c5c;
+    text-shadow: 0 0 10px rgba(205, 92, 92, 0.4);
+  }
+
+  .result-warm {
+    color: #f0c060;
+    text-shadow: 0 0 10px rgba(240, 192, 96, 0.4);
+  }
+
+  .result-neutral {
+    color: #cd853f;
+  }
+
+  .roll-button {
+    display: inline-block;
+    margin-top: 1.5rem;
+    padding: 0.9rem 2.5rem;
+    background: linear-gradient(180deg, #b8860b 0%, #8b6508 50%, #6b4e06 100%);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 6px;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    box-shadow:
+      0 4px 15px rgba(184, 134, 11, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    transition: all 0.2s ease;
+  }
+
+  .roll-button:hover {
+    background: linear-gradient(180deg, #d4a017 0%, #b8860b 50%, #8b6508 100%);
+    box-shadow:
+      0 6px 20px rgba(184, 134, 11, 0.6),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+  }
+
+  .roll-button:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 8px rgba(184, 134, 11, 0.3);
+  }
+
+  .decorative-line {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.3), transparent);
+    margin: 1rem 0;
+  }
+
+  .footer-text {
+    margin-top: 1.5rem;
+    font-size: 0.8rem;
+    color: #6b4e06;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+</style>
+
+<div class="casino-wrapper">
+  <p class="marquee">Welcome to the</p>
+  <h1 class="casino-title">Golden Dice Saloon</h1>
+  <p class="subtitle">Est. 1962 &mdash; Where fortunes are made</p>
+
+  <div class="felt-table">
+    <div class="dice-row">
+      <div class="die-box">
+        <img src="/images/dice/<%= die1 %>.svg" alt="Die showing <%= die1 %>">
+        <span class="die-value"><%= die1 %></span>
+      </div>
+
+      <span class="plus">+</span>
+
+      <div class="die-box">
+        <img src="/images/dice/<%= die2 %>.svg" alt="Die showing <%= die2 %>">
+        <span class="die-value"><%= die2 %></span>
+      </div>
+    </div>
+
+    <hr class="decorative-line">
+
+    <p class="score-display">Your Roll</p>
+    <div class="score-number"><%= total %></div>
+
+    <p class="result-message <%= result_class %>"><%= result_message %></p>
+
+    <a href="/dice" class="roll-button">Roll the Bones</a>
+  </div>
+
+  <p class="footer-text">The house always wins &mdash; but not tonight</p>
+</div>

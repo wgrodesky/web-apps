@@ -1,0 +1,21 @@
+<%
+  fillings = ["Carnitas", "Al Pastor", "Pescado", "Avocado"]
+%>
+
+<%= fillings%>
+<%# I won't be seen%>
+<!-- I will be seen-->
+
+
+<h1>I love tacos!</h1>
+<p>They are the best.</p>
+
+<ul>
+<li>Avocado</li>
+<li>Carnitas</li>
+<li>Corn</li>
+
+
+<% for filling in fillings %>
+<li><%= fillings%> </li>
+<% end %>
